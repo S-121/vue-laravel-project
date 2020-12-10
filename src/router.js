@@ -32,6 +32,10 @@ const router = new Router({
           name: "StarterPage",
           path: "/admin/starterpage",
           component: () => import("@/views/StarterPage"),
+          meta: {
+            authRequired: true,
+            authorize: [Role.Admin],
+          }
         },
       ],
     },
@@ -89,15 +93,6 @@ const router = new Router({
           next(authRequiredOnPreviousRoute ? { name: 'StarterPage' } : { ...routeFrom })
         },
       },
-    },
-    {
-      name: "StarterPage",
-      path: "/admin/starterpage",
-      component: () => import("@/views/StarterPage"),
-      meta: {
-        authRequired: true,
-        authorize: [Role.Admin],
-      }
     },
   ],
 });
