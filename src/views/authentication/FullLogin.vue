@@ -128,13 +128,11 @@ export default {
           })
             // eslint-disable-next-line no-unused-vars
             .then((token) => {
-              console.log("then", token);
+              console.log("then", token.role);
               const that = this;
               if (token.role == 1) {
                 // Redirect to the originally requested page, or to the home page
-                that.$router.push({ name: "StarterPage" }).catch((err) => {
-                  throw new Error(`Problem handling something: ${err}.`);
-                });
+                that.$router.push({ name: "StarterPage" });
               } else {
                 that.$router.push({ name: "Error" });
               }

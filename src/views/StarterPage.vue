@@ -1,6 +1,10 @@
 <template>
   <v-container fluid class="down-top-padding">
-    <BaseBreadcrumb :title="page.title" :icon="page.icon" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+    <BaseBreadcrumb
+      :title="page.title"
+      :icon="page.icon"
+      :breadcrumbs="breadcrumbs"
+    ></BaseBreadcrumb>
     <v-row>
       <v-col cols="12" md="6">
         <v-card>
@@ -55,15 +59,15 @@ export default {
   name: "StarterPage",
   data: () => ({
     page: {
-      title: "StarterPage"
+      title: "StarterPage",
     },
     elementVisible: false,
     breadcrumbs: [
       {
         text: "StarterPage",
-        disabled: true
-      }
-    ]
-  })
+        disabled: true,
+      },
+    ],
+  }),
 };
 </script>

@@ -3,6 +3,6 @@ export default [
     {
         icon: 'mdi-file',
         title: 'Starte Page',
-        to: '/starterpage',
+        to: '/admin/starterpage',
     },
 ]

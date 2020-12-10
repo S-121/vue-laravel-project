@@ -122,8 +122,8 @@
                     <img
                       :src="
                         'https://www.wrappixel.com/demos/admin-templates/materialpro-bootstrap-latest/material-pro/src/assets/images/users/' +
-                          item.avatar +
-                          '.jpg'
+                        item.avatar +
+                        '.jpg'
                       "
                       :alt="item.title"
                     />
@@ -161,8 +161,20 @@
       </template>
 
       <v-list>
-        <v-list-item v-for="(item, i) in userprofile" :key="i" @click="href">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item @click="href">
+          <v-list-item-title>My Contacts</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="href">
+          <v-list-item-title>My Balance</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="href">
+          <v-list-item-title>Inbox</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="href">
+          <v-list-item-title>Account Setting</v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <router-link to="/logout">Logout</router-link>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -246,13 +258,6 @@ export default {
         time: "12:30AM",
       },
     ],
-    userprofile: [
-      { title: "My Contacts" },
-      { title: "My Balance" },
-      { title: "Inbox" },
-      { title: "Account Setting" },
-      { title: "Logout" },
-    ],
     href() {
       return undefined;
     },
@@ -266,10 +271,10 @@ export default {
     ...mapMutations({
       setSidebarDrawer: "SET_SIDEBAR_DRAWER",
     }),
-    showhideLogo: function() {
+    showhideLogo: function () {
       this.showLogo = !this.showLogo;
     },
-    searchbox: function() {
+    searchbox: function () {
       this.showSearch = !this.showSearch;
     },
   },

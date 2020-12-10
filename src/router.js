@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import goTo from "vuetify/es5/services/goto";
 import store from '@/store/store'
-import { Role } from "./role";
+import { Role } from "./views/role";
 
 Vue.use(Router);
 
@@ -27,6 +27,18 @@ const router = new Router({
       path: "/",
       redirect: "/fulllogin",
       component: () => import("@/layouts/full-layout/Layout"),
+      children: [
+        {
+          name: "StarterPage",
+          path: "/admin/starterpage",
+          component: () => import("@/views/StarterPage"),
+        },
+      ],
+    },
+    {
+      name: "Error",
+      path: "/error",
+      component: () => import("@/views/authentication/Error"),
     },
     {
       name: "FullLogin",
@@ -80,17 +92,12 @@ const router = new Router({
     },
     {
       name: "StarterPage",
-      path: "/starterpage",
+      path: "/admin/starterpage",
       component: () => import("@/views/StarterPage"),
       meta: {
         authRequired: true,
         authorize: [Role.Admin],
       }
-    },
-    {
-      name: "Error",
-      path: "/error",
-      component: () => import("@/views/authentication/Error"),
     },
   ],
 });

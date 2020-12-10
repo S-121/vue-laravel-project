@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // https://github.com/declandewet/vue-meta
-import VueMeta from 'vue-meta'
+// import VueMeta from 'vue-meta'
 
 import store from '@/store/store'
-import routes from './router.js'
+import routes from '../router.js'
 
 Vue.use(VueRouter)
-Vue.use(VueMeta, {
-  // The component option name that vue-meta looks for meta info on.
-  keyName: 'page',
-})
+// Vue.use(VueMeta, {
+//   // The component option name that vue-meta looks for meta info on.
+//   keyName: 'page',
+// })
 
 const router = new VueRouter({
   routes,

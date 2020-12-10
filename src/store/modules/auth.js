@@ -30,9 +30,7 @@ export const actions = {
   // Logs in the current user.
   logIn({ commit, dispatch, getters }, { email, password } = {}) {
     if (getters.loggedIn) return dispatch('validate')
-    console.log("login", email, password);
     return axios.post("api/login", { email: email, password: password }).then((res) => {
-      console.log("login", res.data.user.role);
       const user = res.data.user
       commit('SET_CURRENT_USER', user)
       return user
