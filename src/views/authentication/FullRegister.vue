@@ -44,9 +44,7 @@
               </h2>
               <h6 class="subtitle-1">
                 Don't have an account?
-                <router-link to="/authentication/fulllogin" class
-                  >Sign In</router-link
-                >
+                <router-link to="/fulllogin" class>Sign In</router-link>
               </h6>
 
               <v-form

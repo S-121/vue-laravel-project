@@ -44,19 +44,18 @@
               </h2>
               <h6 class="subtitle-1">
                 Don't have an account?
-                <router-link to="/authentication/fullregister" class
-                  >Sign Up</router-link
-                >
+                <router-link to="/fullregister" class>Sign Up</router-link>
               </h6>
 
               <v-form
+                @submit.prevent="submit"
                 ref="form"
                 v-model="valid"
                 lazy-validation
                 action="/dashboards/analytical"
               >
                 <v-text-field
-                  v-model="input.email"
+                  v-model="email"
                   :rules="emailRules"
                   label="E-mail"
                   class="mt-4"
@@ -64,7 +63,7 @@
                   outlined
                 ></v-text-field>
                 <v-text-field
-                  v-model="input.password"
+                  v-model="password"
                   :counter="6"
                   :rules="passwordRules"
                   label="Password"
@@ -86,7 +85,7 @@
                   block
                   class="mr-4"
                   submit
-                  @click="submit"
+                  type="submit"
                   >Sign In</v-btn
                 >
               </v-form>
@@ -99,13 +98,13 @@
 </template>
 
 <script>
+import { authMethods } from "@/store/helpers";
+
 export default {
   name: "FullLogin",
   data: () => ({
-    input: {
-      email: "",
-      password: "",
-    },
+    email: "",
+    password: "",
     valid: true,
     show1: false,
     passwordRules: [
@@ -118,10 +117,31 @@ export default {
     ],
   }),
   methods: {
+    ...authMethods,
     submit() {
-      this.$refs.form.validate();
-      if (this.$refs.form.validate(true)) {
-        console.log(this.input);
+      // Reset the authError if it existed.
+      if (this.email != "" && this.password != "") {
+        return (
+          this.logIn({
+            email: this.email,
+            password: this.password,
+          })
+            // eslint-disable-next-line no-unused-vars
+            .then((token) => {
+              console.log("then", token);
+              const that = this;
+              if (token.role == 1) {
+                // Redirect to the originally requested page, or to the home page
+                that.$router.push({ name: "StarterPage" }).catch((err) => {
+                  throw new Error(`Problem handling something: ${err}.`);
+                });
+              } else {
+                that.$router.push({ name: "Error" });
+              }
+            })
+        );
+      } else {
+        alert("Please enter your email and password.");
       }
     },
   },

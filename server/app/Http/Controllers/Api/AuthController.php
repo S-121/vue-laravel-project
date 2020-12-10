@@ -25,4 +25,39 @@ class AuthController extends Controller
         DB::table('users')->insert($validatedData);
         return "OK";
     }
+
+    public function login(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            print_r("get_logined");
+        } else if ($request->isMethod('post')) {
+            print_r("post_logined");
+        }
+        // if ($request->isMethod('get')) {
+        //     $user = DB::table('users')->where('logined', 1)->first();
+        //     return response(['user' => $user]);
+        // } else if ($request->isMethod('post')) {
+        //     $validatedData = $request->validate([
+        //         'email' => 'required',
+        //         'password' => 'required'
+        //     ]);
+        //     // print_r($validatedData);
+
+        //     $email = $validatedData['email'];
+        //     // return response(['attempt' => Auth::attempt($validatedData), 'a' => 'a']);
+        //     if (Auth::attempt($validatedData)) {
+        //         $user = DB::table('users')->where('email', $email)->first();
+        //         if ($user->logined == 0) {
+        //             $validatedData['logined'] = 1;
+        //             $validatedData['password'] = Hash::make($validatedData['password']);
+        //             DB::table('users')->where('email', $email)->update($validatedData);
+        //             return response(['user' => $user]);
+        //         } else {
+        //             return response(['user' => $user]);
+        //         }
+        //     } else {
+        //         return response(['user' => 'no exists']);
+        //     }
+        // }
+    }
 }
