@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 // import VueMeta from 'vue-meta'
 
 import store from '@/store/store'
-import routes from '../router.js'
+import routes from '../router'
 
 Vue.use(VueRouter)
 // Vue.use(VueMeta, {
