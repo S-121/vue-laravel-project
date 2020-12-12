@@ -130,7 +130,7 @@ export default {
         that.$http.post("api/register", this.input).then(function (res) {
           if (res.data == "OK") {
             alert("Successful Sign Up !");
-            that.$router.push({ path: "/authentication/fulllogin" });
+            that.$router.push({ path: "/fulllogin" });
           }
         });
       }

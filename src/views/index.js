@@ -57,7 +57,7 @@ router.beforeEach((routeTo, routeFrom, next) => {
       // var path = str.slice(1, 6);
       if (str.indexOf("admin") != -1 && authorize.length && validUser.role != 1) {
         // if (validUser) {
-        next({ name: 'user' })
+        next({ name: 'Error' })
       }
       next()
     })

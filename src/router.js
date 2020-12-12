@@ -20,6 +20,15 @@ export default [
         }
       },
       {
+        name: "UserManage",
+        path: "/admin/usernamage",
+        component: () => import("@/views/pages/UserManage"),
+        meta: {
+          authRequired: true,
+          authorize: [Role.Admin],
+        }
+      },
+      {
         name: "Error",
         path: "/users/error",
         component: () => import("@/views/authentication/Error"),
@@ -178,6 +187,17 @@ export default [
 //   if (to.name) {
 //     // Start the route progress bar.
 //     NProgress.start(800);
+//   }
+//   next();
+// });
+
+// router.beforeEach((to, from, next) => {
+//   // If this isn't an initial page load.
+//   let excepts = ['FullLogin',
+//     'FullRegister',
+//     'logout']
+//   if (excepts.indexOf(to.name) == -1) {
+
 //   }
 //   next();
 // });

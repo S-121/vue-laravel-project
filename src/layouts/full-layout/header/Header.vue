@@ -174,7 +174,7 @@
           <v-list-item-title>Account Setting</v-list-item-title>
         </v-list-item>
         <v-list-item>
-          <router-link to="/logout">Logout</router-link>
+          <a href="/logout">Logout</a>
         </v-list-item>
       </v-list>
     </v-menu>
