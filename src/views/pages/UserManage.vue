@@ -9,6 +9,18 @@
       :breadcrumbs="breadcrumbs"
     ></BaseBreadcrumb>
     <div class="mt-4">
+      <div class="col-12 text-right" justify="space-around">
+        <v-btn
+          style="background-color: royalblue"
+          color="white"
+          Primary
+          class="mb-2"
+          text
+          @click="createmodal"
+          >Craete User</v-btn
+        >
+      </div>
+
       <v-data-table
         :headers="headers"
         :items="desserts"
@@ -20,12 +32,7 @@
             <!-- <v-toolbar-title>My CRUD</v-toolbar-title> -->
             <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark class="mb-2" v-on="on"
-                  >New User</v-btn
-                >
-              </template>
+            <v-dialog v-model="editdialog" max-width="500px">
               <v-card>
                 <v-card-title>
                   <span class="headline">{{ formTitle }}</span>
@@ -39,6 +46,11 @@
                       lazy-validation
                       action="/pages/boxedlogin"
                     >
+                      <v-text-field
+                        v-model="input.id"
+                        class="mt-4"
+                        type="hidden"
+                      ></v-text-field>
                       <v-text-field
                         v-model="input.username"
                         label="Full Name"
@@ -80,18 +92,96 @@
         </template>
         <template v-slot:item.role="{ item }">
           <v-switch
-            v-model="ex11"
+            v-model="item.role"
             color="indigo darken-3"
-            @click="rolemanage(item)"
+            @click="rolemanage(item.id)"
             hide-details
+            checked
           ></v-switch>
         </template>
         <template v-slot:item.actions="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-          <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          <v-icon small @click="deleteItem(item.id)">mdi-delete</v-icon>
         </template>
       </v-data-table>
     </div>
+    <!-- start delete modal -->
+    <v-dialog v-model="deldialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Delete</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-text-field
+            v-model="deldata"
+            class="mt-4"
+            type="hidden"
+          ></v-text-field>
+          <v-container style="text-align: center">
+            <h1>Do you want to delete?</h1>
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="delcancel">No</v-btn>
+          <v-btn color="blue darken-1" text @click="del">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end delete modal -->
+    <!-- start create modal -->
+    <v-dialog v-model="createdialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Create User</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-container>
+            <v-form
+              ref="form"
+              v-model="valid"
+              lazy-validation
+              action="/pages/boxedlogin"
+            >
+              <v-text-field
+                v-model="create.username"
+                label="User Name"
+                class="mt-4"
+                required
+                outlined
+              ></v-text-field>
+              <v-text-field
+                v-model="create.email"
+                :rules="emailRules"
+                label="E-mail"
+                required
+                outlined
+              ></v-text-field>
+              <v-text-field
+                v-model="create.password"
+                :counter="6"
+                :rules="passwordRules"
+                label="Password"
+                required
+                outlined
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show1 ? 'text' : 'password'"
+              ></v-text-field>
+            </v-form>
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="createcancel">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="createuser">Create</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end create modal -->
   </div>
 </template>
 
@@ -120,8 +210,11 @@ export default {
         disabled: true,
       },
     ],
-    ex11: [],
-    dialog: false,
+    ex11: false,
+    createdialog: false,
+    editdialog: false,
+    deldialog: false,
+    deldata: "",
     headers: [
       {
         text: "No",
@@ -137,6 +230,11 @@ export default {
     desserts: [],
     editedIndex: -1,
     input: {
+      username: "",
+      email: "",
+      password: "",
+    },
+    create: {
       username: "",
       email: "",
       password: "",
@@ -192,21 +290,29 @@ export default {
       });
     },
 
+    createmodal() {
+      this.createdialog = true;
+    },
+
     editItem(item) {
       console.log(item);
       this.editedIndex = this.desserts.indexOf(item);
       this.input = Object.assign({}, item);
-      this.dialog = true;
+      this.editdialog = true;
     },
 
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+    deleteItem(id) {
+      console.log(id);
+      this.deldata = id;
+      this.deldialog = true;
+      // const index = this.desserts.indexOf(id);
+      // confirm("Are you sure you want to delete this item?") &&
+      //   this.desserts.splice(index, 1);
+      // console.log(this.desserts.splice(index, 1));
     },
 
     close() {
-      this.dialog = false;
+      this.editdialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -226,6 +332,48 @@ export default {
             }
           });
       }
+    },
+
+    delcancel() {
+      this.deldialog = false;
+    },
+
+    createuser() {
+      this.$refs.form.validate();
+      const that = this;
+      if (this.$refs.form.validate(true)) {
+        this.$http.post("api/createuser", this.create).then(function (res) {
+          if (res.data == "CREATEUSER") {
+            that.createcancel();
+            that.usergetdata();
+          }
+        });
+      }
+    },
+
+    createcancel() {
+      this.createdialog = false;
+    },
+
+    del() {
+      console.log(this.deldata);
+      const that = this;
+      this.$http
+        .post("api/userdelete", { id: this.deldata })
+        .then(function (res) {
+          if (res.data == "U_DEL") {
+            that.deldialog = false;
+            that.usergetdata();
+          }
+        });
+    },
+
+    rolemanage(id) {
+      const that = this;
+      this.$http.post("api/rolemanage", { id: id }).then(function (res) {
+        console.log(res.data);
+        that.usergetdata();
+      });
     },
   },
 };

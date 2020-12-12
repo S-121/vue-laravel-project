@@ -25,5 +25,8 @@ Route::post('register', 'Api\AuthController@register');
 // Route::middleware('auth:api')->group(function () {
 Route::get('logout', 'Api\AuthController@logout');
 Route::get('usergetdata', 'Api\UserController@usergetdata');
+Route::post('createuser', 'Api\UserController@createuser');
 Route::post('usercreateorupgrade', 'Api\UserController@usercreateorupgrade');
+Route::post('rolemanage', 'Api\UserController@rolemanage');
+Route::post('userdelete', 'Api\UserController@userdelete');
 // });
